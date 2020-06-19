@@ -7,24 +7,32 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Movement Vars
+    [Header ("Movement Attr")]
     public float movementSpeed = 10.0f;
     public float jumpForce = 5.0f;
     public float jumpLimit = 2;
     private bool isFacingRight = false;
 
     // Physics Vars
+    [Header ("Physics Vars")]
     private Rigidbody2D rb;
     private float xDir;
 
     // Animation Vars
+    [Header ("Animation Vars")]
     Animator anim;
 
     // Ground and Jump Check Vars
+    [Header ("Ground and Jump check Vars")]
     public Transform ground;
     public LayerMask whatIsGround;
     public float groundRadius;
     private float currentJump = 0;
     public bool groundCheck;
+
+    // Audio Vars
+    [Header ("Audio Refs")]
+    public AudioSource audioSource;
 
     void Start()
     {
@@ -51,6 +59,13 @@ public class PlayerController : MonoBehaviour
         {
             ++currentJump;
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            if (Mathf.RoundToInt(currentJump % 2) == 1)
+            {
+                AudioManager.am.PlayJumpSound(audioSource);
+            } else
+            {
+                AudioManager.am.PlayJumpSound2(audioSource);
+            }
         }
         else if (groundCheck && currentJump == jumpLimit) currentJump = 0;
     }
