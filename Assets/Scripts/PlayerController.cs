@@ -32,6 +32,12 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
+    private void FixedUpdate()
+    {
+        rb.velocity = new Vector2(xDir * movementSpeed, rb.velocity.y);
+        checkEnv();
+    }
+
     void Update()
     {
         xDir = Input.GetAxisRaw("Horizontal");
@@ -59,6 +65,8 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetBool("isRunning", false);
         }
+        anim.SetBool("groundCheck", groundCheck);
+        anim.SetFloat("yVelocity", rb.velocity.y);
         if (isFacingRight && xDir == 1 || (!isFacingRight && xDir == -1)) flipCharacter();
     }
 
@@ -71,11 +79,5 @@ public class PlayerController : MonoBehaviour
     {
         isFacingRight = !isFacingRight;
         transform.Rotate(0.0f, 180.0f, 0.0f);
-    }
-
-    private void FixedUpdate()
-    {
-        rb.velocity = new Vector2(xDir * movementSpeed, rb.velocity.y);
-        checkEnv();
     }
 }
