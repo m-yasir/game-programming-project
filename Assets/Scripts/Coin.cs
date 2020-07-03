@@ -8,26 +8,29 @@ public class Coin : MonoBehaviour
     public int point;
 
     [Header("Script References")]
-    public ParticleSystem particleSystem;
-    public SpriteRenderer renderer;
-    public Collider2D collider;
+    [SerializeField]
+    protected ParticleSystem cParticleSystem;
+    [SerializeField]
+    protected SpriteRenderer spriteRender;
+    [SerializeField]
+    protected Collider2D cCollider;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
-            collect();
+            Collect();
         }
     }
 
-    void collect()
+    void Collect()
     {
         GameManager.gm.addScore(point);
-        particleSystem.Play();
+        cParticleSystem.Play();
         // Hiding coin sprite for the time being to let particles play and not destory it pre-maturely
-        renderer.enabled = false;
-        collider.enabled = false; // Disable collider so that nothing/player collides to it to simulate destroy while the particle system is playing.
-        Destroy(gameObject, particleSystem.main.duration); // Destroy once particle system runs out.
+        spriteRender.enabled = false;
+        cCollider.enabled = false; // Disable collider so that nothing/player collides to it to simulate destroy while the particle system is playing.
+        Destroy(gameObject, cParticleSystem.main.duration); // Destroy once particle system runs out.
         AudioManager.am.PlayCoinSound(); // Play collection sound
     }
 }

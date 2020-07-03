@@ -15,7 +15,6 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] footstepClips;
     public AudioClip coinSound;
     public AudioClip jumpSound;
-    public AudioClip jumpSound2;
 
     private void Awake()
     {
@@ -23,14 +22,10 @@ public class AudioManager : MonoBehaviour
         PlayBG();
     }
 
-    public void PlayCoinSound()
-    {
-        PlaySoundOn(UISource, coinSound);
-    }
-
     void PlayBG()
     {
         UISource.clip = bgMusic;
+        UISource.volume = 0.8f;
         UISource.Play();
     }
 
@@ -38,6 +33,11 @@ public class AudioManager : MonoBehaviour
     {
         audio.clip = clip;
         audio.Play();
+    }
+
+    public void PlayCoinSound()
+    {
+        PlaySoundOn(CoinSource, coinSound);
     }
 
     public void PlayFootstepSound(AudioSource audio)
@@ -51,11 +51,6 @@ public class AudioManager : MonoBehaviour
     public void PlayJumpSound(AudioSource audio)
     {
         PlaySoundOn(audio, jumpSound);
-    }
-
-    public void PlayJumpSound2(AudioSource audio)
-    {
-        PlaySoundOn(audio, jumpSound2);
     }
 
     public AudioClip GetRandomClip(AudioClip[] clips)
